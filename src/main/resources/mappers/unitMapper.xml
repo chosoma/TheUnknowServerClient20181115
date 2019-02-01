@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thingtek.beanServiceDao.unit.dao.UnitDao">
+
+    <sql id="unit_select">
+        SELECT * FROM unit unit
+        LEFT JOIN collect_type ct ON unit.unit_type = ct.collect_type_num
+        LEFT JOIN senser_type st ON unit.senser_type_num = st.senser_type_num
+        LEFT JOIN point point ON unit.point_num = point.point_num
+    </sql>
+
+    <select id="findAll" resultType="java.util.Map">
+        <include refid="unit_select"/>
+        LEFT JOIN unit_speed ul ON unit.unit_num = ul.unit_num AND unit.unit_type = 2
+        LEFT JOIN unit_water us ON unit.unit_num = us.unit_num AND unit.unit_type = 1
+        WHERE unit.del = 1;
+    </select>
+
+    <insert id="saveUnit" parameterType="com.thingtek.beanServiceDao.unit.baseunit.entity.BaseUnitBean">
+        INSERT INTO unit
+        (unit_type, unit_num, unit_name, senser_type_num, net_type, net_num, point_num, place_name)
+        VALUES
+        <foreach collection="array" item="unit" open="(" separator="),(" close=")">
+            #{unit.unit_type},
+            #{unit.unit_num},
+            #{unit.unit_name},
+            #{unit.senser_type_num},
+            #{unit.net_type},
+            #{unit.net_num},
+            #{unit.point_num},
+            #{unit.place_name}
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        unit_name = VALUES (unit_name),
+        senser_type_num = VALUES (senser_type_num),
+        point_num = VALUES (point_num),
+        place_name = VALUES (place_name),
+        del = 1
+    </insert>
+    <insert id="saveOnetypeUnit">
+        INSERT INTO
+        <choose>
+            <when test=" unit_type == 1 ">
+                unit_water (unit_num,value_init,first_value,second_value,third_value,frequency)
+                VALUES
+                <foreach collection="array" item="unit" open="(" separator="),(" close=")">
+                    #{unit.unit_num},
+                    #{unit.value_init},
+                    #{unit.first_value},
+                    #{unit.second_value},
+                    #{unit.third_value},
+                    #{unit.frequency}
+                </foreach>
+                ON DUPLICATE KEY UPDATE
+                value_init = VALUES (value_init),
+                first_value = VALUES (first_value),
+                second_value = VALUES (second_value),
+                third_value = VALUES (third_value),
+                frequency = VALUES(frequency)
+            </when>
+        </choose>
+    </insert>
+
+    <select id="findCollects" resultType="com.thingtek.beanServiceDao.unit.baseunit.entity.CollectUnitBean">
+        SELECT * FROM collect_type
+    </select>
+
+    <select id="findSensers" resultType="com.thingtek.beanServiceDao.unit.baseunit.entity.SenserUnitBean">
+        SELECT * FROM senser_type
+    </select>
+
+
+    <update id="deleteOnetypeUnit" parameterType="com.thingtek.beanServiceDao.unit.baseunit.entity.BaseUnitBean">
+        UPDATE unit SET del = 0
+        <where>
+            unit.unit_type = #{unit_type} AND unit.unit_num IN
+            <foreach collection="array" item="unit" open="(" close=")" separator=",">
+                #{unit.unit_num}
+            </foreach>
+        </where>
+    </update>
+
+</mapper>

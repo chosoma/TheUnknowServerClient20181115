@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean name="tablemodelconfig" class="com.thingtek.view.component.tablemodel.TableConfig">
+        <property name="tableModels">
+            <map>
+                <entry key="水位" value-ref="waterDataTableModel"/>
+                <entry key="流速" value-ref="speedDataTableModel"/>
+            </map>
+        </property>
+        <property name="datereg" value="YYYY-MM-dd HH:mm:ss"/>
+        <property name="decimalreg">
+            <map>
+                <entry key="水位" value="#0.00"/>
+                <entry key="率定" value="#0.00"/>
+                <entry key="流速" value="#0.00"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean name="tableranderer" class="com.thingtek.view.component.tablecellrander.TCR"/>
+    <bean name="waterUnitTableRanderer" class="com.thingtek.view.component.tablecellrander.TCR"/>
+    <bean name="waterUnitInitTestTableRanderer" class="com.thingtek.view.component.tablecellrander.TCR"/>
+    <bean name="waterDataTableRanderer" class="com.thingtek.view.component.tablecellrander.TCR"/>
+
+
+</beans>

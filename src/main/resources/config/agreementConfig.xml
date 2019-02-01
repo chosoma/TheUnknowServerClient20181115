@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="com.thingtek.config.agreement.AgreementConfig">
+        <property name="head">
+            <array>
+                <value>84</value>
+                <value>84</value>
+                <value>69</value>
+                <value>75</value>
+            </array>
+        </property>
+        <property name="headoff" value="0"/>
+        <property name="totallength" value="14"/>
+
+        <property name="seq">
+            <array>
+                <value>4</value>
+                <value>5</value>
+            </array>
+        </property>
+        <property name="seqoff" value="4"/>
+        <property name="ordertype">
+            <array>
+                <value>6</value>
+                <value>7</value>
+            </array>
+        </property>
+        <property name="ordertypeoff" value="6"/>
+
+        <property name="cmdtype">
+            <array>
+                <value>9</value>
+                <value>8</value>
+            </array>
+        </property>
+        <property name="cmdtypeoff" value="8"/>
+        <property name="datalength">
+            <array>
+                <value>11</value>
+                <value>10</value>
+            </array>
+        </property>
+        <property name="datalengthoff" value="10"/>
+        <property name="parameteroff" value="12"/>
+        <property name="orderrequest">
+            <array>
+                <value>0x00</value>
+                <value>0x00</value>
+            </array>
+        </property>
+        <property name="orderresponse">
+            <array>
+                <value>0x00</value>
+                <value>0x01</value>
+            </array>
+        </property>
+        <property name="onedatalength" value="6"/>
+        <property name="g2S">
+            <map>
+                <entry key="0x000C" value="com.thingtek.com.entity.G2SSpeedNetConnect"/>
+                <entry key="0x0008" value="com.thingtek.com.entity.G2SSpeedTestStart"/>
+                <entry key="0x0009" value="com.thingtek.com.entity.G2SSpeedTestStop"/>
+                <entry key="0x0004" value="com.thingtek.com.entity.G2SSpeedUploadData"/>
+                <entry key="0x000D" value="com.thingtek.com.entity.G2SUploadUnitID"/>
+                <entry key="0x0001" value="com.thingtek.com.entity.G2SWaterNetConnect"/>
+                <entry key="0x0002" value="com.thingtek.com.entity.G2SWaterUploadData"/>
+                <entry key="0x0003" value="com.thingtek.com.entity.G2SWaterSetInit"/>
+                <entry key="0x0004" value="com.thingtek.com.entity.G2SWaterStartCollect"/>
+                <entry key="0x0005" value="com.thingtek.com.entity.G2SWaterStopCollect"/>
+            </map>
+        </property>
+
+        <property name="s2gmap">
+            <map>
+                <entry key="speednetconnect">
+                    <bean class="com.thingtek.com.entity.S2GSpeedNetConnect">
+                        <property name="cmdtype">
+                            <array>
+                                <value>0x00</value>
+                                <value>0x0C</value>
+                            </array>
+                        </property>
+                    </bean>
+                </entry>
+                <entry key="speedteststart">
+                    <bean class="com.thingtek.com.entity.S2GSpeedTestStart">
+                        <property name="cmdtype">
+                            <array>
+                                <value>0x00</value>
+                                <value>0x08</value>
+                            </array>
+                        </property>
+                    </bean>
+                </entry>
+                <entry key="speedteststop">
+                    <bean class="com.thingtek.com.entity.S2GSpeedTestStop">
+                        <property name="cmdtype">
+                            <array>
+                                <value>0x00</value>
+                                <value>0x09</value>
+                            </array>
+                        </property>
+                    </bean>
+                </entry>
+                <entry key="waternetconnect">
+                    <bean class="com.thingtek.com.entity.S2GWaterNetConnect">
+                        <property name="cmdtype">
+                            <array>
+                                <value>0x00</value>
+                                <value>0x01</value>
+                            </array>
+                        </property>
+                    </bean>
+                </entry>
+                <entry key="wateruploaddata">
+                    <bean class="com.thingtek.com.entity.S2GWaterUploadData">
+                        <property name="cmdtype">
+                            <array>
+                                <value>0x00</value>
+                                <value>0x02</value>
+                            </array>
+                        </property>
+                    </bean>
+                </entry>
+                <entry key="watersetinit">
+                    <bean class="com.thingtek.com.entity.S2GWaterSetInit">
+                        <property name="cmdtype">
+                            <array>
+                                <value>0x00</value>
+                                <value>0x03</value>
+                            </array>
+                        </property>
+                    </bean>
+                </entry>
+                <entry key="waterstartcollect">
+                    <bean class="com.thingtek.com.entity.S2GWaterStartCollect">
+                        <property name="cmdtype">
+                            <array>
+                                <value>0x00</value>
+                                <value>0x04</value>
+                            </array>
+                        </property>
+                    </bean>
+                </entry>
+                <entry key="waterstopcollect">
+                    <bean class="com.thingtek.com.entity.S2GWaterStopCollect">
+                        <property name="cmdtype">
+                            <array>
+                                <value>0x00</value>
+                                <value>0x05</value>
+                            </array>
+                        </property>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+        <property name="dataAgreements">
+            <array>
+                <bean class="com.thingtek.config.agreement.DataAgreements">
+                    <property name="type" value="1"/>
+                </bean>
+            </array>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thingtek.beanServiceDao.proinfo.dao.ProInfoDao">
+
+    <select id="find" resultType="com.thingtek.beanServiceDao.proinfo.entity.ProInfoBean">
+        SELECT * FROM pro_test_info
+        ORDER BY inserttime DESC
+        LIMIT 1
+    </select>
+
+    <insert id="save" parameterType="com.thingtek.beanServiceDao.proinfo.entity.ProInfoBean">
+        INSERT INTO pro_test_info
+        (
+        pro_name,
+        vertical_value,
+        horizontal_value,
+        manager,
+        tel_num,
+        com,
+        first_value,
+        second_value,
+        third_value,
+        test_count
+        )
+        VALUES
+        (
+        #{pro_name},
+        #{vertical_value},
+        #{horizontal_value},
+        #{manager},
+        #{tel_num},
+        #{com},
+        #{first_value},
+        #{second_value},
+        #{third_value},
+        #{test_count}
+        )
+        ON DUPLICATE KEY UPDATE
+        vertical_value = #{vertical_value},
+        horizontal_value = #{horizontal_value},
+        manager = #{manager},
+        tel_num = #{tel_num},
+        com = #{com},
+        first_value = #{first_value},
+        second_value = #{second_value},
+        third_value = #{third_value},
+        test_count = #{test_count}
+    </insert>
+
+</mapper>

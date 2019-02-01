@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thingtek.beanServiceDao.user.dao.UserDao">
+
+    <select id="findUser" resultType="com.thingtek.beanServiceDao.user.entity.UserBean">
+        <if test=" _parameter!=null and _parameter !='' ">
+            SELECT * FROM user user
+            <where>
+                user.username = #{_parameter}
+                AND user.del = 1
+            </where>
+        </if>
+    </select>
+
+    <select id="findAll" resultType="com.thingtek.beanServiceDao.user.entity.UserBean">
+        SELECT * FROM user user
+        <where>
+            user.authority &gt;= #{authority} AND del = 1
+        </where>
+    </select>
+
+    <insert id="saveUser" parameterType="com.thingtek.beanServiceDao.user.entity.UserBean">
+        <if test=" username!=null and username !='' and password!=null and password!='' ">
+            INSERT INTO user
+            (username,password)
+            VALUES (
+            #{username},
+            #{password}
+            )
+            ON DUPLICATE KEY UPDATE
+            del = 1 , authority = 2 , password = #{password}
+        </if>
+    </insert>
+
+    <update id="updateUser" parameterType="com.thingtek.beanServiceDao.user.entity.UserBean">
+        <if test=" username!=null and username !='' ">
+            UPDATE user SET
+            <choose>
+                <when test=" del!=null and del ">
+                    del = 0
+                </when>
+                <when test=" authority!=null ">
+                    authority = #{authority}
+                </when>
+                <when test=" password!=null and password!='' ">
+                    password = #{password}
+                </when>
+            </choose>
+            <where>
+                username = #{username}
+            </where>
+        </if>
+    </update>
+
+</mapper>

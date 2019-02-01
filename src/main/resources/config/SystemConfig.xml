@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean name="logoInfo" class="com.thingtek.view.logo.LogoInfo">
+        <property name="companyName" value="无锡讯泰科技有限公司"/>
+        <property name="copyrightName" value="© CopyRight "/>
+        <property name="softName" value="水位流速采集系统"/>
+        <property name="basePanelMap">
+            <map>
+                <!--<entry key="主　　页" value-ref="homePanel"/>-->
+                <entry key="主　　页" value-ref="waterCollectStatesPanel"/>
+                <!--<entry key="数据采集" value-ref="dataCollect"/>-->
+                <entry key="水位采集" value-ref="waterDataCollectPanel"/>
+                <!--<entry key="流速采集" value-ref="speedDataCollectPanel"/>-->
+                <entry key="数据管理" value-ref="waterDataManage"/>
+                <entry key="调试界面" value-ref="debugs"/>
+            </map>
+        </property>
+
+        <property name="setPanelMap">
+            <map>
+                <entry key="参数设置">
+                    <map>
+                        <entry key="试验基本信息" value-ref="systemPanel2ProjectInfomation"/>
+                        <entry key="水位仪" value-ref="systemPanel2WaterInfo"/>
+                    </map>
+                </entry>
+                <entry key="系统设置">
+                    <map>
+                        <entry key="水尺常数率定" value-ref="systemPanel2WaterInitTest"/>
+                        <entry key="用户管理" value-ref="systemPanel2User"/>
+                        <entry key="密码修改" value-ref="systemPanel2PassWord"/>
+                    </map>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean name="classConfig" class="com.thingtek.config.ClassConfig">
+        <property name="dataClassConfigMap">
+            <map>
+                <entry key="0" value="com.thingtek.beanServiceDao.data.entity.SpeedDataBean"/>
+                <entry key="1" value="com.thingtek.beanServiceDao.data.entity.WaterDataBean"/>
+            </map>
+        </property>
+        <property name="unitClassConfigMap">
+            <map>
+                <entry key="0" value="com.thingtek.beanServiceDao.unit.entity.SpeedUnitBean"/>
+                <entry key="1" value="com.thingtek.beanServiceDao.unit.entity.WaterUnitBean"/>
+            </map>
+        </property>
+    </bean>
+    <bean name="homePanel" class="com.thingtek.view.shell.homePage.HomePanel">
+        <property name="logoinfo" value="© CopyRight 无锡讯泰科技有限公司"/>
+    </bean>
+
+</beans>

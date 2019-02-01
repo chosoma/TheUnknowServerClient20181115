@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thingtek.beanServiceDao.data.dao.DataDao">
+    <select id="findByPara"
+            parameterType="com.thingtek.com.data.entity.DataSearchPara"
+            resultType="java.util.Map">
+        SELECT * FROM
+        <choose>
+            <when test=" unit_type == 1 ">
+                data_water dfoo
+            </when>
+            <when test=" unit_type == 0 ">
+                data_speed dfoo
+            </when>
+        </choose>
+        LEFT JOIN data dgoo ON dfoo.unit_num = dgoo.unit_num AND dgoo.unit_type = #{unit_type}
+        LEFT JOIN unit unit ON dgoo.unit_type = unit.unit_type AND dgoo.unit_num = unit.unit_num
+        <choose>
+            <when test=" unit_type == 1 ">
+                LEFT JOIN unit_water ufoo ON ufoo.unit_num = unit.unit_num
+            </when>
+            <when test=" unit_type == 0 ">
+                LEFT JOIN unit_speed ufoo ON ufoo.unit_num = unit.unit_num
+            </when>
+        </choose>
+        LEFT JOIN collect_type ct ON unit.unit_type = ct.collect_type_num
+        <where>
+            unit.del = 1 AND dfoo.del = 1
+            <if test=" unit_num!=null or (t1!=null or t2!=null) ">
+                AND
+            </if>
+            <if test=" unit_num!=null ">
+                unit.unit_num = #{unit_num}
+                <if test=" (t1!=null or t2!=null) ">
+                    AND
+                </if>
+            </if>
+            <if test=" t1!=null or t2!=null ">
+                <choose>
+                    <when test=" t1!=null and t2!=null ">
+                        dfoo.inserttime BETWEEN #{t1} AND #{t2}
+                    </when>
+                    <when test=" t1!=null and t2==null ">
+                        dfoo.inserttime &gt; #{t1}
+                    </when>
+                    <when test=" t1==null and t2!=null ">
+                        dfoo.inserttime &lt; #{t2}
+                    </when>
+                </choose>
+            </if>
+            ORDER BY dfoo.inserttime ASC
+        </where>
+    </select>
+
+    <update id="deleteDatas">
+        UPDATE
+        <choose>
+            <when test=" unit.unit_type == 1 ">
+                data_water
+            </when>
+            <when test=" unit.unit_type == 0 ">
+                data_speed
+            </when>
+        </choose>
+        SET del = 0
+        <where>
+            unit_num = #{unit.unit_num} AND
+            inserttime IN
+            <foreach collection="dates" item="date" open="(" separator="," close=")">
+                #{date}
+            </foreach>
+        </where>
+    </update>
+
+    <insert id="saveData" parameterType="com.thingtek.beanServiceDao.data.basedata.entity.BaseDataBean">
+        INSERT INTO
+        <choose>
+            <when test=" unit_type == 1 ">
+                data_water
+            </when>
+            <when test=" unit_type == 0 ">
+                data_speed
+            </when>
+        </choose>
+        (unit_num,
+        <if test=" value1 != null ">
+            value1
+            <if test=" value2 != null or value3 != null ">
+                ,
+            </if>
+        </if>
+        <if test=" value2 != null ">
+            value2
+            <if test=" value3 != null ">
+                ,
+            </if>
+        </if>
+        <if test=" value3 != null ">
+            value3
+        </if>
+        )
+        VALUES
+        (
+        #{unit_num},
+        <if test=" value1 != null ">
+            #{value1}
+            <if test=" value2 != null or value3 != null ">
+                ,
+            </if>
+        </if>
+        <if test=" value2 != null ">
+            #{value2}
+            <if test=" value3 != null ">
+                ,
+            </if>
+        </if>
+        <if test=" value3 != null ">
+            #{value3},
+        </if>
+        )
+        ON DUPLICATE KEY UPDATE
+        <if test=" value1 != null ">
+            value1 = #{value1}
+            <if test=" value2 != null or value3 != null ">
+                ,
+            </if>
+        </if>
+        <if test=" value2 != null ">
+            value2 = #{value2}
+            <if test=" value3 != null ">
+                ,
+            </if>
+        </if>
+        <if test=" value3 != null ">
+            value3 = #{value3}
+        </if>
+    </insert>
+
+    <insert id="saveGoo" parameterType="com.thingtek.beanServiceDao.data.basedata.entity.BaseDataBean">
+        INSERT INTO data
+        (unit_type, unit_num)
+        VALUES
+        (
+        #{unit_type},#{unit_num}
+        )
+        ON DUPLICATE KEY UPDATE
+        unit_type = #{unit_type},unit_num = #{unit_num}
+    </insert>
+    <!--unit_type = #{unit_type}, unit_num = #{unit_num}-->
+</mapper>
